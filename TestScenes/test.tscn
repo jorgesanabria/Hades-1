@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbomdq4lhxqtu"]
+
+[ext_resource type="Script" path="res://TestScenes/SimpleTestScene.gd" id="1_85xnl"]
+[ext_resource type="Texture2D" uid="uid://bi7ycyi4fw48o" path="res://Images/monstruo.png" id="2_eivqe"]
+
+[node name="Test" type="Node2D"]
+
+[node name="SimpleTestScene" type="Node2D" parent="."]
+script = ExtResource("1_85xnl")
+enemy_texture = ExtResource("2_eivqe")
+tarjet_path = NodePath("../Marker2D")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(568, 357)
