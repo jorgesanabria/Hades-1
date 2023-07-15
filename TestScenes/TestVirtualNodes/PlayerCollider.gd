@@ -13,3 +13,10 @@ func physics_process(delta: float):
 
 func get_corrected_position(initial: Vector2) -> Vector2:
 	return initial - Vector2(35, 35)
+
+
+func is_valid_collision(other: PhysicVirtualNode2D) -> bool:
+	if other is SimpleBullet:
+		return false
+	
+	return false

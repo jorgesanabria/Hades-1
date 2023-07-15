@@ -97,25 +97,54 @@ func add_virtual_child(child: BaseVirtualNode2D):
 	self.virtual_childrem.append(child)
 
 func get_closest_childrem(point:Vector2, max_count: int, condition: Callable) -> Array[BaseVirtualNode2D]:
-	if self.virtual_childrem.size() <= 1:
-		return []
+	#if self.virtual_childrem.size() <= 1:
+		#return []
 	
 	var childrem: Array[BaseVirtualNode2D] = []
 	
 	var i = 0
 	while i <= max_count:
-		var child = get_closest_child(point, condition, childrem)
+		var child = get_closest_virtual_node(point, condition)
 		if child == null:
 			break
 		#if condition.call(child):
-		childrem.append(child)
+		if child not in childrem:
+			childrem.append(child)
 		
-		if (self.virtual_childrem.size() - 1) == i:
-			break
+		#if (self.virtual_childrem.size() - 1) == i:
+			#break
 		
 		i += 1
 	
 	return childrem
+
+func get_closest_nodes(origin: Vector2, filter: Callable, max_count: float = 1.0) -> Array[BaseVirtualNode2D]:
+	var closest_nodes: Array[BaseVirtualNode2D] = []
+	var filter_nodes := self.virtual_childrem.filter(filter)
+	for i in range(filter_nodes.size()):
+		var distance = filter_nodes[i].position.distance_to(origin)
+		if closest_nodes.size() < max_count:
+			closest_nodes.append(filter_nodes[i])
+		else:
+			for j in range(max_count):
+				if distance < closest_nodes[j].position.distance_to(origin):
+					closest_nodes[j] = filter_nodes[i]
+					break
+	return closest_nodes	
+
+func get_closest_virtual_node(origin: Vector2, filter: Callable) -> BaseVirtualNode2D:
+	var closest_index = -1
+	var shortest_distance = 9999999
+	for i in range(self.virtual_childrem.filter(filter).size()):
+		var distance = self.virtual_childrem[i].distance_to(origin)
+		if distance < shortest_distance:
+			shortest_distance = distance
+			closest_index = i
+	if closest_index >= 0:
+		return self.virtual_childrem[closest_index]
+	
+	return null
+
 
 func get_closest_child(point: Vector2, condition: Callable, childrem_to_ignore: Array[BaseVirtualNode2D] = []) -> BaseVirtualNode2D:
 	if self.virtual_childrem.size() == 0:

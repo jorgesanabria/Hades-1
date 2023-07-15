@@ -29,10 +29,12 @@ func fire():
 func do_fire(from: Vector2):
 	#print(self.sprite.position)
 	#print(from)
-	var to_fire = self.level.get_closest_childrem(from, 1, func(obj) -> bool: return obj is SimpleEnemy)
+	var to_fire = self.level.get_closest_nodes(from, func(node: BaseVirtualNode2D) -> bool: return node is SimpleEnemy)
 	
 	for enemy in to_fire:
 		#print(enemy is SimpleEnemy)
+		#self.level.add_virtual_child(SimpleBullet.new(self.level, self.bullet_texture, from, enemy.position))
+		#self.level.add_virtual_child(SpriteBullet.new(self.level, self.bullet_texture, from, enemy.position))
 		self.level.add_virtual_child(SimpleBullet.new(self.level, self.bullet_texture, from, enemy.position))
 
 func set_level(level: BaseVirtualScene2D):
