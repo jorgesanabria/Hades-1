@@ -57,8 +57,8 @@ func clear_desubscriptions_to_physics_process():
 
 func clear_desubscriptions_to_draw():
 	for draw_subscriber in self.subscribers_to_remove_from_draw_event:
-		if self.subscribers_to_remove_from_draw_event.has(draw_subscriber):
-			self.subscribers_to_remove_from_draw_event.remove_at(self.subscribers_to_remove_from_draw_event.find(draw_subscriber))
+		if self.subscribers_to_draw_event.has(draw_subscriber):
+			self.subscribers_to_draw_event.remove_at(self.subscribers_to_draw_event.find(draw_subscriber))
 	self.subscribers_to_remove_from_draw_event.clear()
 
 func clear_childrem_to_remove():
@@ -95,3 +95,42 @@ func add_virtual_child(child: BaseVirtualNode2D):
 		return
 	
 	self.virtual_childrem.append(child)
+
+func get_closest_childrem(point:Vector2, max_count: int, condition: Callable) -> Array[BaseVirtualNode2D]:
+	if self.virtual_childrem.size() <= 1:
+		return []
+	
+	var childrem: Array[BaseVirtualNode2D] = []
+	
+	var i = 0
+	while i <= max_count:
+		var child = get_closest_child(point, condition, childrem)
+		if child == null:
+			break
+		#if condition.call(child):
+		childrem.append(child)
+		
+		if (self.virtual_childrem.size() - 1) == i:
+			break
+		
+		i += 1
+	
+	return childrem
+
+func get_closest_child(point: Vector2, condition: Callable, childrem_to_ignore: Array[BaseVirtualNode2D] = []) -> BaseVirtualNode2D:
+	if self.virtual_childrem.size() == 0:
+		return null
+		
+	var closest_child: BaseVirtualNode2D = self.virtual_childrem[0]
+	
+	for child in self.virtual_childrem.filter(condition):
+		if child in childrem_to_ignore:
+			continue
+		
+		if child == closest_child:
+			continue
+			
+		if child.position.distance_to(point) < closest_child.position.distance_to(point):
+			closest_child = child
+		
+	return closest_child	

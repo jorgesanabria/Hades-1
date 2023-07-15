@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://6yym0vvrejq2"]
+
+[ext_resource type="Texture2D" uid="uid://c4pywnsa8iqxw" path="res://Images/prota.png" id="1_sh5n0"]
+[ext_resource type="Script" path="res://TestScenes/PlayerTestEscene/simple_player.gd" id="2_mcv3c"]
+[ext_resource type="Script" path="res://TestScenes/PlayerTestEscene/WeaponTest.gd" id="3_i7wmk"]
+[ext_resource type="Texture2D" uid="uid://bblan2guyip3u" path="res://Images/ataque2.png" id="4_c03gp"]
+
+[node name="SimplePlayer" type="Sprite2D"]
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("1_sh5n0")
+script = ExtResource("2_mcv3c")
+
+[node name="SpanwTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="Weapon" type="Node2D" parent="."]
+script = ExtResource("3_i7wmk")
+bullet_texture = ExtResource("4_c03gp")
+
+[node name="TopCanyon" type="Marker2D" parent="Weapon"]
+position = Vector2(860, -520)
+
+[node name="BottonCanyon" type="Marker2D" parent="Weapon"]
+position = Vector2(-819.999, 480)
+
+[connection signal="timeout" from="SpanwTimer" to="." method="_on_spanw_timer_timeout"]

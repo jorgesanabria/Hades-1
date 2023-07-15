@@ -5,7 +5,7 @@ var scene: BaseVirtualScene2D
 var parent: BaseVirtualNode2D = null
 var position: Vector2 = Vector2.ZERO
 var groups: Array[String] = []
-
+var name: String = ""
 var chilrem: Array[BaseVirtualNode2D] = []
 
 func get_relative_position() -> Vector2:

@@ -1,14 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://bbomdq4lhxqtu"]
+[gd_scene load_steps=5 format=3 uid="uid://bbomdq4lhxqtu"]
 
 [ext_resource type="Script" path="res://TestScenes/SimpleTestScene.gd" id="1_85xnl"]
 [ext_resource type="Texture2D" uid="uid://bi7ycyi4fw48o" path="res://Images/monstruo.png" id="2_eivqe"]
+[ext_resource type="PackedScene" uid="uid://6yym0vvrejq2" path="res://TestScenes/PlayerTestEscene/simple_player.tscn" id="3_lyeun"]
+[ext_resource type="Texture2D" uid="uid://0mnjjxgnxj8s" path="res://icon.svg" id="4_xrdxu"]
 
 [node name="Test" type="Node2D"]
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("4_xrdxu")
+
 [node name="SimpleTestScene" type="Node2D" parent="."]
+position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_85xnl")
 enemy_texture = ExtResource("2_eivqe")
-tarjet_path = NodePath("../Marker2D")
+tarjet_path = NodePath("../SimplePlayer")
 
-[node name="Marker2D" type="Marker2D" parent="."]
-position = Vector2(568, 357)
+[node name="SimplePlayer" parent="." instance=ExtResource("3_lyeun")]
+position = Vector2(565, 361)
+level_path = NodePath("../SimpleTestScene")
+spawn_raius = 1000.0
+
+[node name="Camera2D" type="Camera2D" parent="SimplePlayer"]
+limit_smoothed = true
